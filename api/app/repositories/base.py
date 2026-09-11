@@ -16,13 +16,13 @@ class RepositorioBase(Generic[T]):
     # CRUD
     def adicionar(self, objeto: T) -> T:
         """Adiciona à sessão e faz flush para gerar o id (sem fazer commit)."""
-        self.db.add(objeto)
-        self.db.flush()
-        self.db.refresh(objeto)
+        self.db.add(objeto) # INSERT
+        self.db.flush() # GERANDO ID
+        self.db.refresh(objeto) # DEFINDO O ID NO OBJETO QUE CHEGOU
         return objeto
 
     def obter_por_id(self, id: int) -> T | None:
-        return self.db.get(self.model, id)
+        return self.db.get(self.model, id) # SELECT
 
     def remover(self, objeto: T) -> None:
         self.db.delete(objeto)

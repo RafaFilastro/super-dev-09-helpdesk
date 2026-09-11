@@ -7,6 +7,7 @@ from app.core.database import Base
 from app.core.tempo import agora
 
 
+# ORM Object Relational Mapping: mapeamento das tabelas do banco em objetos e vice-versa
 class Categoria(Base):
     __tablename__ = "categorias"
 
@@ -19,12 +20,11 @@ class Categoria(Base):
         unique=True,
         nullable=False,
     )
-    descricao: Mapped[bool] = mapped_column(
-        Boolean,
-        default=True,
+    descricao: Mapped[str] = mapped_column(
+        String(255),
         nullable=False,
     )
-    ativo: Mapped[bool] = mapped_column(
+    ativa: Mapped[bool] = mapped_column(
         Boolean,
         default=True,
         nullable=False,
