@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
-from app.schemas.usuario_shcema import UsuarioCriar
+from app.schemas.usuario_schema import UsuarioCriar, UsuarioEditar, UsuarioListar
 from app.services.usuario_service import UsuarioService
 
 router = APIRouter(prefix="/usuarios", tags=["Usuários"])
@@ -18,9 +18,53 @@ def get_db():
         db.close()
 
 
-@router.post("")
+@router.post(
+    "",
+    summary="Cadastrar usuário",
+    response_model=UsuarioListar
+)
 def criar(
     dado: UsuarioCriar,
     db: Annotated[Session, Depends(get_db)],
 ):
     return UsuarioService(db).criar(dado)
+
+@router.get(
+        "",
+        summary="Listar usúarios",
+        response_model=list[UsuarioListar],
+)
+def listar(
+    db: Annotated[Session, Depends(get_db)],
+):
+    return UsuarioService(db).listar()
+
+@router.put("/{id}")
+def editar(
+    id: int,
+    dado: UsuarioEditar,
+    db: Annotated[Session, Depends(get_db)],
+):
+    return UsuarioService(db).editar(id, dado)
+
+@router.get(
+    "/{id}",
+    summary="Consultar usuário filtrando por id",
+    response_model=UsuarioListar
+)
+def consultar_por_id(
+    id: int,
+    db: Annotated[Session, Depends(get_db)],
+):
+    return UsuarioService(db).obter_por_id(id)
+
+@router.delete(
+    "/{id}",
+    summary="Apagar usuário filtrando por id",
+    response_model=UsuarioListar
+)
+def apagar(
+    id: int,
+    db: Annotated[Session, Depends(get_db)],
+):
+    return UsuarioService(db).apagar(id)
