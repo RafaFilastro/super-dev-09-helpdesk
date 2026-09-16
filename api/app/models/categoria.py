@@ -20,7 +20,7 @@ class Categoria(Base):
         unique=True,
         nullable=False,
     )
-    descricao: Mapped[str] = mapped_column(
+    descricao: Mapped[str | None] = mapped_column(
         String(255),
         nullable=False,
     )

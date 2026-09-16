@@ -1,21 +1,10 @@
-from typing import Annotated
+from fastapi import APIRouter
 
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-
-from app.core.database import SessionLocal
+from app.dependencies.database import DbSession
 from app.schemas.usuario_schema import UsuarioCriar, UsuarioEditar, UsuarioListar
 from app.services.usuario_service import UsuarioService
 
 router = APIRouter(prefix="/usuarios", tags=["Usuários"])
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @router.post(
@@ -25,7 +14,7 @@ def get_db():
 )
 def criar(
     dado: UsuarioCriar,
-    db: Annotated[Session, Depends(get_db)],
+    db: DbSession,
 ):
     return UsuarioService(db).criar(dado)
 
@@ -35,7 +24,7 @@ def criar(
         response_model=list[UsuarioListar],
 )
 def listar(
-    db: Annotated[Session, Depends(get_db)],
+    db: DbSession,
 ):
     return UsuarioService(db).listar()
 
@@ -43,7 +32,7 @@ def listar(
 def editar(
     id: int,
     dado: UsuarioEditar,
-    db: Annotated[Session, Depends(get_db)],
+    db: DbSession,
 ):
     return UsuarioService(db).editar(id, dado)
 
@@ -54,7 +43,7 @@ def editar(
 )
 def consultar_por_id(
     id: int,
-    db: Annotated[Session, Depends(get_db)],
+    db: DbSession,
 ):
     return UsuarioService(db).obter_por_id(id)
 
@@ -65,6 +54,6 @@ def consultar_por_id(
 )
 def apagar(
     id: int,
-    db: Annotated[Session, Depends(get_db)],
+    db: DbSession,
 ):
     return UsuarioService(db).apagar(id)
