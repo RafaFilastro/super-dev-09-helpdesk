@@ -21,6 +21,14 @@ class ConflitoError(ErroAplicacao):
     status_code = 409
     codigo = "conflito"
 
+class PermissaoNegadaError(ErroAplicacao):
+    status_code = 409
+    codigo = "conflito"
+
+class RegraNegocioError(ErroAplicacao):
+    status_code = 422
+    codigo = "regra_negada"
+
 def __corpo_erro(codigo: str, mensagem: str, detalhes: list) -> dict:
     return {
         "codigo": codigo,
