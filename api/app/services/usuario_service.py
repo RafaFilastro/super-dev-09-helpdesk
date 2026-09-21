@@ -48,7 +48,9 @@ class UsuarioService:
         usuario = self.usuario_repository.obter_por_id(id)
 
         if usuario is None:
-            raise NaoEncontradoError("Usuario não encontrado")
+            raise NaoEncontradoError("Usuário não encontrado")
+        if not usuario.ativo:
+            raise NaoEncontradoError("Usuário não encontrado")
 
         return usuario
 
