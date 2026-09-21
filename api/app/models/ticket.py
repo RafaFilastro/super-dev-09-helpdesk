@@ -1,9 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy.orm import mapped_column, Mapped
-from sqlalchemy import String, Text, Enum, DateTime
+from sqlalchemy import DateTime, Enum, String, Text
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.schema import ForeignKey
-
 
 from app.core.database import Base
 from app.core.enums import PrioridadeChamado, SetorChamado, StatusChamado
